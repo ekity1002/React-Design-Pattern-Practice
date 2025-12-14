@@ -7,9 +7,19 @@
 // 3. Containerでデータ取得・状態管理を行う
 // 4. Presentationalコンポーネントはpropsのみを受け取る
 
+import { useUsers } from "./UserListContainer"
+import { UserListView } from "./UserListView"
+
 function UserList() {
-  // TODO: ContainerとPresentationalに分離
-  return <div>Presentational & Container Pattern - TODO</div>
+  const { loading, filter, setFilter, filteredUsers } = useUsers()
+  if (loading) return <div>Loading...</div>
+  return (
+    <UserListView
+      users={filteredUsers}
+      filter={filter}
+      onFilterChange={setFilter}
+    />
+  )
 }
 
 export default UserList
