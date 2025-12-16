@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-// TODO: 条件付きレンダリングのパターンを実装してください
-// ヒント:
 // 1. 三項演算子を使う
 // 2. &&演算子を使う
 // 3. Early returnを使う
