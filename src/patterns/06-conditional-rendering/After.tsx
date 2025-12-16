@@ -13,11 +13,11 @@ interface User {
 }
 
 function UserDashboard() {
-  const [_user, setUser] = useState<User | null>(null)
-  const [_loading, setLoading] = useState(true)
-  const [_error, setError] = useState<string | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const _loadUser = (shouldError = false) => {
+  const loadUser = (shouldError = false) => {
     setLoading(true)
     setError(null)
     setTimeout(() => {
@@ -31,8 +31,49 @@ function UserDashboard() {
     }, 1000)
   }
 
-  // TODO: より読みやすい条件付きレンダリングに書き換える
-  return <div>Conditional Rendering Pattern - TODO</div>
+  if (loading) {
+    return (
+      <div style={{ padding: '20px', border: '1px solid #ddd' }}>
+        <div>Loading...</div>
+        <ActionButtons onLoad={loadUser} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: '20px', border: '1px solid #ddd' }}>
+        <div style={{ color: 'red' }}>Error: {error}</div>
+        <ActionButtons onLoad={loadUser} />
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ddd' }}>
+      {user ? (
+        <div>
+          <h3>Welcome, {user.name}!</h3>
+          <p>Role: {user.role}</p>
+        </div>
+      ) : (
+        <div>No user data</div>
+      )}
+
+      <ActionButtons onLoad={loadUser} />
+    </div>
+  )
+}
+
+function ActionButtons({ onLoad }: { onLoad: (shildError?: boolean) => void }) {
+    return (
+    <div style={{ marginTop: '20px' }}>
+      <button onClick={() => onLoad(false)} style={{ marginRight: '10px' }}>
+        Load User
+      </button>
+      <button onClick={() => onLoad(true)}>Simulate Error</button>
+    </div>
+  )
 }
 
 export default UserDashboard
